@@ -1,0 +1,30 @@
+解法一：硬解。两次遍历数组
+
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        for(int i = 0; i < nums.length; i++){
+            for(int j = i + 1; j < nums.length; j++){
+                if(nums[i] + nums[j] == target){
+                    int[] res = {i, j};
+                    return res;
+                }
+            }
+        }
+        return null;
+    }
+}
+
+解法二：通过hashtable，找是否存在target - num[i] 的key，如果存在，直接返回Key对应的Value，否则把num[i] 作为Key， i作为Value储存。
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for(int i = 0; i < nums.length; i++){
+            if(map.containsKey(target - nums[i])){
+                return new int[]{map.get(target - nums[i]), i};
+            }
+            map.put(nums[i], i);
+        }
+        return null;
+    }
+}
+
