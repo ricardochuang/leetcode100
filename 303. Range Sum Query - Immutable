@@ -17,4 +17,11 @@ class NumArray {
 给定了一个数组，要从中求出i到j的和。
 因为每次调用都要求和，所以可以用一个专门的数组存sum。
 sum的第一个是空，第二个是sum的第1 + num的第一1，sum的第三个是sum的第二个+num的第二个
-要求从i到j的和的时候，只需要从j+1 - i即可
+即
+sum[0] = 0;
+sum[1] = sum[0] + num[0];
+sum[2] = sum[1] + num[1] = num[0] + num[1];
+要求从i到j的和的时候，只需要从(j + 1) - i即可
+sum[j + 1] 是num从0到j
+sum[i] 是num 从0到i -1
+sum[j + 1] - sum[i]是从 i 到 j
