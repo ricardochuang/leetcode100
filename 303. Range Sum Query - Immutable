@@ -25,3 +25,20 @@ sum[2] = sum[1] + num[1] = num[0] + num[1];
 sum[j + 1] 是num从0到j
 sum[i] 是num 从0到i -1
 sum[j + 1] - sum[i]是从 i 到 j
+
+
+不过硬算也是可以的
+class NumArray {
+    int[] nums;
+    public NumArray(int[] nums) {
+        this.nums = nums;
+    }
+    
+    public int sumRange(int i, int j) {
+        int res = 0;
+        for(int a = i; i < j + 1; ++i){
+            res += nums[i];
+        }
+        return res;
+    }
+}
