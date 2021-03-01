@@ -1,0 +1,20 @@
+class NumArray {
+    int[] sums;
+
+    public NumArray(int[] nums) {
+        int n = nums.length;
+        sums = new int[n + 1];
+        for(int i = 0; i < n; i ++){
+            sums[i + 1] = sums[i] + nums[i];
+        }
+    }
+    
+    public int sumRange(int i, int j) {
+        return sums[j + 1] - sums[i];
+    }
+}
+
+给定了一个数组，要从中求出i到j的和。
+因为每次调用都要求和，所以可以用一个专门的数组存sum。
+sum的第一个是空，第二个是sum的第1 + num的第一1，sum的第三个是sum的第二个+num的第二个
+要求从i到j的和的时候，只需要从j+1 - i即可
