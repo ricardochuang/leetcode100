@@ -1,0 +1,31 @@
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode resHead = null;
+        ListNode resCur = resHead;
+        int carry = 0;
+        while(l1 != null || l2 != null){
+            int l1Res = (l1 != null ? l1.val : 0); 
+            int l2Res = (l2 != null ? l2.val : 0); 
+            int res = l1Res + l2Res + carry;
+            int units = res % 10;
+            carry = res / 10;
+            if(resHead == null) resHead = resCur = new ListNode(units);
+            else {
+                resCur.next = new ListNode(units);
+                resCur = resCur.next;
+                }
+            if(l1 != null) l1 = l1.next;
+            if(l2 != null) l2 = l2.next;
+        }
+        if(carry > 0) resCur.next = new ListNode(carry);
+        return resHead;
+    }
+}
+
+其实是按位求两数之和。进位的做法有点类似微软的笔试。
+用carry表示进位，
+每次的个位数相当于 （list1 + list2 + carry ） % 10
+每次的进位相当于  （list1 + list2 + carry ） / 10
+每次对list1和list2进行判断，看这次处理是要加多少。
+最后记得把l1和l2移动。
+最后如果还有carry要记得添加节点。
