@@ -1,0 +1,22 @@
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        if (s.length()==0) return 0;
+        Map<Character, Integer> map = new HashMap<>();
+        int res = 0;
+        int left = 0;
+        for(int i = 0; i < s.length(); i ++){
+            if(map.containsKey(s.charAt(i))){
+                left = Math.max(left, map.get(s.charAt(i)) + 1);
+            }
+            map.put(s.charAt(i),i);
+            res = Math.max(res,i-left+1);
+        }
+        return res;
+
+    }
+}
+
+本题采用滑动窗口。先将left放到最左侧，然后开始遍历。如果map中还没有出现当先的char，就把这个char是啥以及对应的位置记录下来。
+再之后的遍历中，如果碰到了重复的，则需要移动left的位置。即移动到重复的字母的下一个比如abcabcaa，当走到第二个c的时候，left就要从位置0移动到位置1。油或者left已经移动了，才碰到重复字母
+（如abbbbaa，再第二次遇到a的时候，left已经在最后一个b的位置了，就不会重新回到第一个b的位置，留在原地不动就好）
+之后更新map中的位置，更新res的值。
