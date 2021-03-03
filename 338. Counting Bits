@@ -18,3 +18,30 @@ class Solution {
 }
 
 方法二：
+0 -> 0000
+1 -> 0001
+2 -> 0010
+3 -> 0011
+4 -> 0100
+5 -> 0101
+6 -> 0110
+7 -> 0111
+8 -> 1000
+
+我们发现4中“1”的个数和2一样，5中“1”的个数比2多1
+也就是说，
+如果是偶数，就跟它的一半含有的“1”一样多；
+如果是奇数，就比他的一半含有的“1”多1
+
+class Solution {
+    public int[] countBits(int num) {
+        int[] res = new int[num + 1];
+        res[0] = 0;
+        for (int i = 1; i <= num; i++) {
+            if (i % 2 == 0){
+                res[i] = res[i / 2];
+            }else res[i] = res[i / 2] + 1;
+        }
+        return res;
+    }
+}
