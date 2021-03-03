@@ -1,0 +1,18 @@
+解法一： 暴力
+class Solution {
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        List<Double> list = new ArrayList<>();
+        for (double i : nums1) {
+            list.add(i);
+        }
+        for (double i : nums2) {
+            list.add(i);
+        }
+        Collections.sort(list);
+        Object[] resArray = list.toArray();
+        int length = resArray.length;
+        if ((length % 2) == 1) return (double)resArray[length / 2];
+        else return ((double)resArray[length / 2] + (double)resArray[length / 2 - 1]) / 2;
+    }
+}
+
