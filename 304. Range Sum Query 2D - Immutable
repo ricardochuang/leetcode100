@@ -39,3 +39,6 @@ class NumMatrix {
 }
 
 方法二： 二维前缀
+对于sum[][], sum[i][j]存的是从0，0开始一直到i， j的所有数的和。
+存和的方法：首先为了避免出界，sums数组可以多加一行和一列。之后开始存和，方法类似于韦恩图，sum[i][j] = sum[i - 1][j] + sum[i][j - 1] - sum[i -1][j - 1] + nums[i][j] (重复加的位置要减去)
+从sum[][]中计算结果的方法： 因为第0行和第0列是空的，因此要找到nums（row2， col2）需要从sum[row2 + 1][col2 + 1]找，然后减去sum[row2 + 1][col1]，再减去sum[row1][col2 + 1],再加上sum[row1][col1] 
