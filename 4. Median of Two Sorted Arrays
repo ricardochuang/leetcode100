@@ -50,7 +50,11 @@ class Solution {
     }
 }
 
-解法三：一会详细看
+解法三：利用二分法的思路完成，对a数组进行二分。
+因为我们只需要找到数组中间的数字，因此可以对一个数组进行二分。
+最终的目标是找到的位置恰好满足aLeft小于bRight（因为我们可以确定aLeft一定是小于aRight）且bLeft小于aRight。
+若a和b数组相加有奇数个元素，则只需返回左侧的最大值（从aLeft和bLeft中取相对大一点的）
+若a和b数组相加有偶数个元素，则还需找到右侧的最小值（从aRight和bRight中取相对小一点的）
 class Solution {
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
        int m = nums1.length, n = nums2.length;
@@ -71,19 +75,23 @@ class Solution {
        while (start <= end){
            aPart = (start + end) / 2;
            bPart = half - aPart;
+
+           //如果aPartLeft大于bPartRight的话，说明插入寻找标记的位置太靠后了，需要向前找
            if (aPart > start && nums1[aPart - 1] > nums2[bPart]) end = aPart - 1;
+
+           //如果aPartRight小于bPartLeft的话，说明入寻找标记的位置太靠前了，需要向后找
            else if(aPart < end && nums1[aPart] < nums2[bPart - 1]) start = aPart + 1;
            else {
                int leftMax = 0;
-               if (aPart == 0) leftMax = nums2[bPart - 1];
-               else if(bPart == 0) leftMax = nums1[aPart - 1];
-               else leftMax = Math.max(nums1[aPart - 1], nums2[bPart - 1]);
-               if (!even) return leftMax * 1.0;
+               if (aPart == 0) leftMax = nums2[bPart - 1]; //说明a中的最小数都比b中最大数要大，那么bPartLeft就是左侧的最大
+               else if(bPart == 0) leftMax = nums1[aPart - 1]; //说明b中最小数大于a中最大数，那么aPartLeft就是左侧最大
+               else leftMax = Math.max(nums1[aPart - 1], nums2[bPart - 1]); //以上都不满足的话，左侧的最大就是从a和b的左侧中选个最大出来
+               if (!even) return leftMax * 1.0; //如果一共是奇数个数字，直接返回左侧最大就行
 
                int minRight = 0;
-               if (aPart == m) minRight =nums2[bPart];
-               else if (bPart == n) minRight = nums1[aPart];
-               else minRight = Math.min(nums2[bPart], nums1[aPart]);
+               if (aPart == m) minRight =nums2[bPart]; //说明a的最大小于b的最小，那么右侧最小就是bPartRight
+               else if (bPart == n) minRight = nums1[aPart]; //说明a的最小大于b的最大，那么右侧最小就是aPartRight
+               else minRight = Math.min(nums2[bPart], nums1[aPart]); //否则就要从两个右侧找最小
                return (leftMax + minRight) / 2.0;
            }
        }
