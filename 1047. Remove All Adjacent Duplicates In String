@@ -39,3 +39,25 @@ class Solution {
 对于返回值，要注意
 1. stack直接弹出的话是反序，可以先放到一个char[]里面
 2. 我是用的character存的，要转成string，可以直接用 new String(char[])来转
+
+
+看到了一种更牛皮的方法;
+class Solution {
+    public String removeDuplicates(String S) {
+        StringBuilder stack = new StringBuilder();
+        char[] chars = S.toCharArray();
+        int top = -1;
+        for (int i = 0; i < S.length(); ++i) {
+            if (top >= 0 && stack.charAt(top) == chars[i]) {
+                stack.deleteCharAt(top);
+                --top;
+            } else {
+                stack.append(chars[i]);
+                ++top;
+            }
+        }
+        return stack.toString();
+    }
+}
+
+用StringBulider代替栈
