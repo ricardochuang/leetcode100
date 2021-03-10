@@ -31,3 +31,21 @@ public int reverse(int x) {
     把int转为string，然后双指针换位。
     
     
+    class Solution{
+    public  int reverse(int x){
+        int rev = 0;
+        while (x != 0){
+            int unit = x % 10;
+            x = x / 10;
+            if (rev > Integer.MAX_VALUE/10 || (rev == Integer.MAX_VALUE / 10 && unit > 7)) return 0;
+            if (rev < Integer.MIN_VALUE/10 || (rev == Integer.MIN_VALUE / 10 && unit < -8)) return 0;
+            rev = rev * 10 + unit;
+        }
+        return rev;
+    }
+    }
+    
+    
+    直接从最后一位砍下来，用一个rev接受，然后*10 + 新来的最后一位，就可以实现反转。
+    还不用判断正负就很舒服。
+    学一下这里防止出界的方式
