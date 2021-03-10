@@ -20,3 +20,52 @@ class Solution {
 然后往里面挨个填入。一个flag能让整个循环变成自动挡。
 最后再将所有的row合在一起。
 绝了！！！！
+
+
+class Solution {
+    public String convert(String s, int numRows) {
+        if (numRows == 1) return s;
+        StringBuilder[] stringBuilders = new StringBuilder[numRows];
+        for (int i = 0; i < numRows; i++) {
+            stringBuilders[i] = new StringBuilder();
+        }
+        char[] chars = s.toCharArray();
+        int n = 2 * numRows - 2;
+        int k = 0;
+        for (int i = 0; i < chars.length; i++) {
+            k = i % n;
+            stringBuilders[Math.min(k, n - k)].append(chars[i]);
+        }
+        StringBuilder res = new StringBuilder();
+        for (StringBuilder row: stringBuilders) {
+            res.append(row);
+        }
+        return res.toString();
+    }
+}
+
+第二种方法，找一下规律。
+可以直接开StringBulider的组，每个里面扔一个StringBuilder，然后挨个初始化。
+
+规律如下：
+对余数进行判断
+
+i%(2n-2) == 0 ----> row0
+
+i%(2n-2) == 1 & 2n-2-1 ----> row1
+
+i%(2n-2) == 2 & 2n-2-2 ----> row2
+
+...
+
+i%(2n-2) == n-1 ----> row(n-1)
+
+==>
+
+对 k = i%(2n-2)进行判断
+
+k<=n-1时候，s[i]就属于第k行
+k>n-1时候，s[i]就属于2n-2-k行
+
+相当于取较小。
+最后将rows拼接起来就行了
