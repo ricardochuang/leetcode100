@@ -1,0 +1,57 @@
+class Solution {
+    int index = 0;
+    public int calculate(String s) {
+        s = s.replaceAll(" ",""); //去除所有空格
+        return get(s);
+    }
+    public int get(String s){
+        if (index >= s.length()) return 0; //到达末尾返回0
+
+        int res = 0;
+        int sign = 1;
+        while (index < s.length()){
+            int curRes = 0;
+            if (s.charAt(index) == '('){
+                index++;
+                curRes = get(s);
+            } //如果遇到(，要递归
+            else {
+                while (index < s.length() && Character.isDigit(s.charAt(index))){
+                    curRes = curRes * 10 + (s.charAt(index) - '0');
+                    index++;
+                }
+            } //否则应该遇到第一个数字，将其取出
+
+            res += sign * curRes; //第一个数字取出之后，计算到目前为止的结果
+
+            if (index < s.length() && s.charAt(index) == ')'){
+                index++;
+                break;
+            } //遇到)，退出while
+
+            if (index < s.length()){
+                if (s.charAt(index) == '+') sign = 1;
+                else sign = -1;
+                index++;
+            } //更新当前符号
+
+
+        }
+        return res;
+    }
+}
+
+/**
+ * 大概思路就是先从左到右开始计算，如果碰到(就开始递归，从(里面继续从左向右计算，直到碰到)则退出递归，返回一个()中的结果
+ * 然后继续从左向右计算。因此index要在最外面。
+ * 当index已经跑到了最右边，返回0.
+ * 在每次(内的第一次计算，补充一个“0 +”不会改变计算结果。
+ * 因此 resCur先置为0，sign先认为是+（这里我用的1表示）。
+ * 如果一上来就是(，开始递归，否则就是遇到的第一个正式数字，可以先将其取出。
+ * 因为数字可能不是一位数，因此要一个while循环，把所有数字取出，每次resCur = resCur * 10 + (s.charAt(index) - '0')
+ * - '0' 是为了将ASCII转为真正的数字。
+ * 第一个数字取出之后，则可以与前一个进行计算。
+ * 计算完成后要看是不是），是的话则要退出递归，返回计算结果
+ * 然后更新一下sign
+ * 
+ */
