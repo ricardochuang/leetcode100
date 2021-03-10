@@ -1,0 +1,33 @@
+public int reverse(int x) {
+        if (x == 0) return 0;
+        int sign = 1;
+        if (x < 0) sign = -1;
+        String string = x + "";
+        string = string.replaceAll("-", "");
+        char[] chars = string.toCharArray();
+        int i = 0;
+        int j = chars.length - 1;
+        char temp = ' ';
+        while (i < j){
+            temp = chars[i];
+            chars[i] = chars[j];
+            chars[j] = temp;
+            i++;
+            j--;
+        }
+        StringBuilder stringBuilder = new StringBuilder();
+        int k;
+        if (chars[0] == '0') k = 1;
+        else k = 0;
+        while (k < chars.length){
+            stringBuilder.append(chars[k]);
+            k++;
+        }
+        Long res = Long.parseLong(stringBuilder.toString()) * sign;
+        if (res > Integer.MAX_VALUE || res < Integer.MIN_VALUE) return 0;
+        else return Integer.parseInt(String.valueOf(res));
+    }
+    
+    把int转为string，然后双指针换位。
+    
+    
