@@ -20,3 +20,27 @@ class Solution {
         return nullCount == 1;
     }
 }
+
+
+首先明确一个想法：只要我能用给的数组拼出来一个完全二叉树，我就可以实现其前序遍历。因此下=只需要判断给我的这组数字能不能实现一个完全二叉树。
+图的一个性质：入度等于出度。
+对于一个 # ，可以提供1入0出。
+对于一个非#，可以提供1入2出。（对于根节点比较特殊，应该是0入2出）。
+如果认为 入为+，出为-，则一个#为 +1, 一个非#为 -1。
+由于忽略了根节点，因此起始的degree为 -1.
+例如1，#，#。他的degree为 -1 -1 +1 +1 为0.此时平衡。
+那么只要统计个数即可。
+但是要注意，如果上来就是#，#，肯定有错。因此if (degree >= 0) return false;
+
+class Solution {
+    public boolean isValidSerialization(String preorder) {
+        String[] strings = preorder.split(",");
+        int degree = -1;
+        for (String s : strings){
+            if (degree >= 0) return false;
+            if (s.equals("#")) degree++;
+            else degree--;
+        }
+        return degree == 0;
+    }
+}
