@@ -1,0 +1,22 @@
+从后往前看。
+最后一个必须得是#，不是就返回false，是的话nullCount++。
+倒数第二个也得是#，nullCount再++。
+倒数第三个可以是数字，可以是#。如果是数字，nullCount--，因为一个数字消耗掉两个#之后，要再产生一个#。
+
+class Solution {
+    public boolean isValidSerialization(String preorder) {
+        String[] split = preorder.split(",");
+        int nullCount=0;
+        for (int i = split.length - 1; i >= 0; i--) {
+            String s = split[i];
+            if (s.equals("#")) {
+                nullCount++;
+            } else if (nullCount >= 2) {
+                nullCount--;
+            } else {
+                return false;
+            }
+        }
+        return nullCount == 1;
+    }
+}
