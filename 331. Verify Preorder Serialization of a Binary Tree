@@ -44,3 +44,32 @@ class Solution {
         return degree == 0;
     }
 }
+
+很蠢的stack方式。其实完全可以不用stack。
+class Solution {
+    public boolean isValidSerialization(String preorder) {
+        String[] strings = preorder.split(",");
+        Stack<String> stack = new Stack<>();
+        int numNull = 0;
+        boolean dropNum = false; //看现在是不是应该扔掉一个数字
+        for (int i = strings.length - 1; i >= 0 ; i--) {
+
+            if (strings[i].equals("#")){
+                numNull++;  //如果碰到了#，numNull要累加
+                dropNum = numNull >= 2;  //如果累加的次数到了2次，就要扔掉下一个见到的数字
+            }
+            else {
+                if (!dropNum) return false; //如果在不应该扔掉数字的时候碰见了数字，说明有错误
+                stack.push(strings[i]);
+            }
+
+            if (!stack.isEmpty() && dropNum){
+                stack.pop();
+                numNull--;
+            }
+            dropNum = numNull >= 2;
+        }
+        return stack.size() == 0 && numNull == 1;
+    }
+}
+
