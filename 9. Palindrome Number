@@ -1,0 +1,39 @@
+粗暴一点就转成string，然后双指针判断。
+注意如果是个负数肯定不是回文。如果是个两位数，直接%11来判断。
+对于三位数以上，开始双指针走。如果总位数是奇数，就看两个指针是不是重合。如果总位数是偶数，就看两个指针所指的位置是不是一样的数字。
+
+class Solution {
+    public boolean isPalindrome(int x) {
+        if (x > 9 && x < 100){
+            return x % 11 == 0;
+        }
+        if(x < 0) return false;
+        String s = x + "";
+        int head = 0;
+        int tail = s.length() - 1;
+        while (head < tail){
+            if (s.charAt(head) == s.charAt(tail)){
+                head++;
+                tail--;
+            }
+            else break;
+        }
+        if (s.length() % 2 == 0) return s.charAt(head) == s.charAt(tail);
+        else return tail == head;
+    }
+}
+
+如果不考虑用string，可以取%，然后重新拼接，看看是不是相等。
+为了避免溢出，可以只处理一半的数字。
+
+class Solution {
+    public boolean isPalindrome(int x) {
+        if (x < 0 || (x % 10 == 0 && x != 0)) return false;
+        int reverseNum = 0;
+        while (x > reverseNum){
+            reverseNum = reverseNum * 10 + x % 10;
+            x /= 10;
+        }
+        return x == reverseNum || x == reverseNum / 10;
+    }
+}
