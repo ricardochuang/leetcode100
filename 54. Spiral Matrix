@@ -1,0 +1,62 @@
+package com.zjx.leetcode16;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Num54 {
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+//        System.out.println(solution.spiralOrder(new int[][]{{1,2,3,4},{5,6,7,8},{9,10,11,12}}));
+//        System.out.println(solution.spiralOrder(new int[][]{{1,2,3},{4,5,6},{7,8,9}}));
+        System.out.println(solution.spiralOrder(new int[][]{{1,2},{3,4},{5,6}}));
+
+    }
+}
+
+class Solution {
+    boolean[][] flags;
+    public List<Integer> spiralOrder(int[][] matrix) {
+        List<Integer> res = new ArrayList<>();
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) return res;
+        flags = new boolean[matrix.length][matrix[0].length];
+        int level = 0;
+        int maxLevel = Math.min(matrix.length, matrix[0].length) / 2 + Math.min(matrix.length, matrix[0].length) % 2;
+        for (int i = level; i < maxLevel; i++) {
+            List<Integer> temp = findByLevel(matrix, maxLevel, i);
+            res.addAll(temp);
+        }
+        return res;
+    }
+    public List<Integer> findByLevel(int[][] matrix, int maxLevel, int level){
+        List<Integer> res = new ArrayList<>();
+        for (int i = level; i < matrix[level].length - level; i++) {
+            if (!flags[level][i]){
+                res.add(matrix[level][i]);
+                flags[level][i] = true;
+            }
+        }
+        for (int i = level + 1; i < matrix.length - level; i++) {
+            if (!flags[i][matrix[level].length - level - 1]){
+                res.add(matrix[i][matrix[level].length - level - 1]);
+                flags[i][matrix[level].length - level - 1] = true;
+            }
+        }
+        for (int i = matrix[level].length - level - 2; i > level - 1; i--) {
+            if (!flags[matrix.length - level - 1][i]){
+                res.add(matrix[matrix.length - level - 1][i]);
+                flags[matrix.length - level - 1][i] = true;
+            }
+        }
+        for (int i = matrix.length - level - 2; i > level; i--) {
+            if (!flags[i][level]){
+                res.add(matrix[i][level]);
+                flags[i][level] = true;
+            }
+        }
+        return res;
+    }
+}
+
+
+我的思路就是按层来看。第一层就是最外面一圈，第二层是稍微靠里一圈。
+用boolean[][] 来判断是不是已经处理过。
