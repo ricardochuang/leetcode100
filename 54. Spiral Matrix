@@ -60,3 +60,42 @@ class Solution {
 
 我的思路就是按层来看。第一层就是最外面一圈，第二层是稍微靠里一圈。
 用boolean[][] 来判断是不是已经处理过。
+
+
+答案的这个判断left和right的关系，是可以防止一个数字被处理两遍的情况
+class Solution {
+    public List<Integer> spiralOrder(int[][] matrix) {
+        List<Integer> order = new ArrayList<Integer>();
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+            return order;
+        }
+        int rows = matrix.length, columns = matrix[0].length;
+        int left = 0, right = columns - 1, top = 0, bottom = rows - 1;
+        while (left <= right && top <= bottom) {
+            for (int column = left; column <= right; column++) {
+                order.add(matrix[top][column]);
+            }
+            for (int row = top + 1; row <= bottom; row++) {
+                order.add(matrix[row][right]);
+            }
+            if (left < right && top < bottom) {
+                for (int column = right - 1; column > left; column--) {
+                    order.add(matrix[bottom][column]);
+                }
+                for (int row = bottom; row > top; row--) {
+                    order.add(matrix[row][left]);
+                }
+            }
+            left++;
+            right--;
+            top++;
+            bottom--;
+        }
+        return order;
+    }
+}
+
+作者：LeetCode-Solution
+链接：https://leetcode-cn.com/problems/spiral-matrix/solution/luo-xuan-ju-zhen-by-leetcode-solution/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
