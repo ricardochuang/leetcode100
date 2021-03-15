@@ -1,0 +1,19 @@
+class Solution {
+    public int maxArea(int[] height) {
+        if (height.length <= 1) return -1;
+        int start = 0;
+        int end = height.length - 1;
+        int maxArea = 0;
+        while (start < end){
+            int resArea = Math.min(height[start], height[end]) * (end - start);
+            maxArea = Math.max(resArea, maxArea);
+            if (height[start] < height[end]) start++;
+            else end--;
+        }
+        return maxArea;
+    }
+}
+
+
+其实每次只需要让高度较小的那个移动就行。
+因为如果高度较高的进行了移动，容积一定减小。
