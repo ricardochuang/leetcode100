@@ -1,0 +1,41 @@
+class Solution {
+    public int[][] generateMatrix(int n) {
+        int[][] res = new int[n][n];
+        int left = 0;
+        int right = n - 1;
+        int top = 0;
+        int bottom = n - 1;
+        int total = n * n;
+        int temp = 0;
+        int i = 1;
+        while (i <= total){
+            //先向右走，横坐标要变化
+            for (temp = left; temp <= right; temp++){
+                res[top][temp] = i;
+                i++;
+            }
+            top++;
+            //再向下走，纵坐标变化
+            for (temp = top; temp <= bottom; temp++){
+                res[temp][right] = i;
+                i++;
+            }
+            right--;
+            //再往左走，横坐标变化
+            for (temp = right; temp >= left; temp--){
+                res[bottom][temp] = i;
+                i++;
+            }
+            bottom--;
+            //再往上走，纵坐标变化
+            for (temp = bottom; temp >= top; temp--){
+                res[temp][left] = i;
+                i++;
+            }
+            left++;
+        }
+        return res;
+    }
+}
+
+还是一个按照层来走的思路
