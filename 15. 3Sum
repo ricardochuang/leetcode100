@@ -1,0 +1,54 @@
+package com.zjx.leetcode23;
+
+import java.util.*;
+
+public class Num15 {
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        System.out.println(solution.threeSum(new int[]{-4,-2,1,-5,-4,-4,4,-2,0,4,0,-2,3,1,-5,0}));
+    }
+}
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        if (nums.length < 3) return res;
+        Arrays.sort(nums);
+        if (nums[0] > 0) return res;
+        int L;
+        int R;
+        int length = nums.length;
+        for (int i = 0; i < length; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) continue; //i的去重其实也是判断了一次之后才开始的。不能一上来就想着去重
+            L = i + 1;
+            R = length - 1;
+            while (L < R){
+                //去重的位置不能放在这里，因为在对第一个数字进行处理的时候，后面的重复数字其实是可以使用的。比如0，0，0.如果一上来就去重，会找不到解。
+//                while (L < R && nums[L] == nums[L + 1]){
+//                    L++;
+//                }
+//                while (L < R && nums[R] == nums[R - 1]){
+//                    R--;
+//                }
+                List<Integer> singleRes = new ArrayList<>();
+                if (nums[i] + nums[L] + nums[R] == 0){
+                    singleRes.add(nums[i]);
+                    singleRes.add(nums[L]);
+                    singleRes.add(nums[R]);
+                    res.add(singleRes);
+                    //去重。真正的去重是我已经处理了当前的这对L和R，在i不变的情况下，改变L和R中的任意一个都会破坏原有的和为零结构，因此L和R要一起变。
+                    while (L < R && nums[L] == nums[L + 1]){
+                        L++;
+                    }
+                    while (L < R && nums[R] == nums[R - 1]){
+                        R--;
+                    }
+                    L++;
+                    R--;
+                }
+                else if (nums[i] + nums[L] + nums[R] > 0) R--;
+                else L++;
+            }
+        }
+        return res;
+    }
+}
