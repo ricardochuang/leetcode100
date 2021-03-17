@@ -1,0 +1,47 @@
+package com.zjx.leetcode21;
+
+public class Num10 {
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        String s = "leet";
+        String p = ".e*t";
+        System.out.println(solution.isMatch(s, p));
+    }
+}
+
+class Solution {
+    public boolean isMatch(String s, String p) {
+        boolean[][] dp = new boolean[s.length() + 1][p.length() + 1]; //为了以长度为基准
+        dp[0][0] = true; //如果s和p的长度都是0，那么一定能匹配上
+
+        //如果s为空，p为"a*"或者"a*b*"，那么结果为true
+        for (int i = 1; i <= p.length(); i++) {
+            if ((p.charAt(i - 1)) == '*' && dp[0][i - 2]){
+                dp[0][i] = true;
+            }
+        }
+
+        //对两个字符串遍历。
+        for (int i = 1; i <= s.length(); i++) {
+            for (int j = 1; j <= p.length(); j++) {
+                //如果两个字符串当前的字母相等，或者p的字符是"."，就可以匹配
+                if (s.charAt(i - 1) == p.charAt(j - 1) || p.charAt(j - 1) == '.'){
+                    dp[i][j] = dp[i - 1][j - 1];
+                }
+                //如果现在不匹配，但是现在是*
+                else if(p.charAt(j - 1) == '*'){
+                    //遇到*要看前一个字符是啥，如果*前面的字母不能match，唯一可能match的情况就是前面匹配了"a*"，所以要往前看两位
+                    if(p.charAt(j - 2) != s.charAt(i - 1) && p.charAt(j - 2) != '.'){
+                        dp[i][j] = dp[i][j - 2];
+                    }
+                    //否则的话，有以下三种情况：
+                    //
+                    else {
+                        dp[i][j] = (dp[i][j - 2] || dp[i][j - 1] || dp[i - 1][j]);
+                    }
+                }
+            }
+        }
+        return dp[s.length()][p.length()];
+    }
+}
