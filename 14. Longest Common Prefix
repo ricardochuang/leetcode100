@@ -1,0 +1,42 @@
+package com.zjx.leetcode26;
+
+public class Num14 {
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        System.out.println(solution.longestCommonPrefix(new String[]{"cir","car"}));
+    }
+}
+
+class Solution {
+    public String longestCommonPrefix(String[] strs) {
+        if (strs == null || strs.length == 0) {
+            return "";
+        }
+        String prefix = strs[0];
+        int length = strs.length;
+        for (int i = 1; i < length; i++) {
+            prefix = findLongestPrefix(prefix, strs[i]);
+            if (prefix.length() == 0) break;
+        }
+        return prefix;
+    }
+
+    private String findLongestPrefix(String str1, String str2) {
+        int length = Math.min(str1.length(), str2.length());
+        int index = 0;
+//        for (int i = 0; i < length; i++) {
+//            if (str1.charAt(i) == str2.charAt(i)){
+//                index++;
+//            }
+//        }
+        //这个思路是错的，因为按照这个思路走的话，看的是两个str中相同的char的个数
+        while (index < length && str1.charAt(index) == str2.charAt(index)) index++;
+        //所以要记得加break，或者直接用上面的这个while
+//        for (int i = 0; i < length; i++) {
+//            if (str1.charAt(i) == str2.charAt(i)){
+//                index++;
+//            }else break;
+//        }
+        return str1.substring(0,index);
+    }
+}
