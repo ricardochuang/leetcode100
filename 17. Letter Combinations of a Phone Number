@@ -1,0 +1,65 @@
+package com.zjx.leetcode25;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+public class Num17 {
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        System.out.println(solution.letterCombinations(""));
+    }
+}
+class Solution {
+    public List<String> letterCombinations(String digits) {
+        List<String> res = new ArrayList<>();
+        if (digits.length() == 0) return res;
+        HashMap<Character, String> map = new HashMap<>();
+        map.put('2',"abc");
+        map.put('3',"def");
+        map.put('4',"ghi");
+        map.put('5',"jkl");
+        map.put('6',"mno");
+        map.put('7',"pqrs");
+        map.put('8',"tuv");
+        map.put('9',"wxyz");
+        traceBack(map, res, digits, 0, new StringBuffer());
+        return res;
+    }
+
+    /**
+     * 做回溯，完成字母组合
+     * @param map phone上的数字和字母的对应关系
+     * @param combinations 最终要返回的答案，是把所有的combination组合到一起
+     * @param digits 输入的数字
+     * @param index 用来表示现在处理的是第几位的一个角标
+     * @param combination 每一次的组合
+     */
+    public void traceBack(HashMap<Character, String> map, List<String> combinations, String digits, int index, StringBuffer combination){
+        if (index == digits.length()){ //如果index已经等于了给的数字的长度，说明所有可能都遍历结束了，因此可以讲结果加到combinations中
+            combinations.add(combination.toString());
+        }
+        else {
+            char digit = digits.charAt(index);
+            String strings = map.get(digit);
+            for (int i = 0; i < strings.length(); i++) {
+                combination.append(strings.charAt(i));
+                traceBack(map, combinations, digits, index + 1, combination);
+                combination.deleteCharAt(index);
+            }
+        }
+    }
+}
+
+/**
+ * 先进来一个2，得到2对应的strings为“abc”
+ * 然后combination中增加一个a，把index置为2，开始找第二个数字里面的字母。
+ * 得到第二个数字3，进而得到3对应的strings为“def”
+ * combination中增加d，目前的combination为ad，index置为3
+ * 由于index跟digits“23”的长度相等了，说明第一种情况已经遍历完成，因此将得到的combination加到combinations中，
+ * 然后index=3结束，回溯到index为2的时候，将里面的d删除，combination剩下a。
+ * 然后i增加，得到字母e。
+ * combination变为ae，然后index再置为3，将ae加入combinations，退回
+ * i增加，得到字母f
+ * combination变成af，然后index再置为3，将af加入combinations，退回
+ */
