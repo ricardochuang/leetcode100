@@ -1,0 +1,28 @@
+头插法永远的神！！！
+记得要先搞一个dummy，放在第一个有数据的节点的前面，否则头插法可能会越界。
+头插法需要三个指针，我们成为pre，head和nex。
+pre是要改变顺序的第一个节点的前一个位置。
+head指向要变化的第一个节点。
+nex是head的后一个。
+
+每次在头插的时候，按照head，nex，pre的顺序来走。
+
+class Solution {
+    public ListNode reverseBetween(ListNode head, int left, int right) {
+        if (left == right) return head;
+        ListNode dummy = new ListNode(0);
+        dummy.next = head; //多加一个dummy点，防止越界
+        ListNode pre = dummy;
+        for (int i = 1; i < left; i++) {
+            pre = pre.next;
+        }
+        head = pre.next;
+        for (int i = left; i < right; i++) {
+            ListNode nex = head.next;
+            head.next = nex.next;
+            nex.next = pre.next;
+            pre.next = nex;
+        }
+        return dummy.next;
+    }
+}
